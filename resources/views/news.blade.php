@@ -1,3 +1,28 @@
+@extends('layouts.app')
+@section('title')
+
+    @parent -Страница Новостей
+
+@endsection
+@section('content');
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Новости</div>
+
+                <div class="card-body">
+                    <h2>Cтраница новостей</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,7 +35,7 @@
 <body>
 <h1 style="text-align: center">Новости</h1>
 
-<?php include('menu.php')?>
+<?php include('menu.blade.php') ?>
 
 <h2 style="text-align: center"">Laravel 5.3: Подготовка к разработке (для новичков)</h2>
 

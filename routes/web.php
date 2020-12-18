@@ -1,29 +1,80 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CategoriesController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('index');
+
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/project', [IndexController::class, 'project'])->name('project');
+
+
+Route::group(['prefix'=>'/news', 'as'=>'news.'], function(){
+
+
+    Route::group(['prefix'=>'category', 'as'=>'category.'], function(){
+        Route::get('/{category_id}', [NewsController::class, 'category'])->where('category_id','[0-9]+')->name('by_id');
+        Route::get('/{slug}', [NewsController::class, 'slug'])->name('by_slug');
+        Route::get('/', [CategoriesController::class, 'index'])->name('by_index');
+
+    });
+    Route::get('/', [NewsController::class, 'index'])-> name('index');
+    Route::get('/{id}', [NewsController::class, 'show'])->name('show');
+    Route::get('/{id}/comments/{comment}', [NewsController::class, 'add'])->name('comment');
+
 });
-Route::get('/news', function () {
-    return view('news');
-});
-Route::get('/project', function () {
-    return view('project');
+Route::group(['prefix'=>'/admin', 'namespace'=>'Admin', 'as'=>'admin.'], function(){
+    Route::group(['prefix'=>'/news', 'as'=>'news.'], function(){
+        Route::get('/', [NewsController::class, 'index'])-> name('index');
+        Route::get('/{id}', [NewsController::class, 'show'])->name('show');
+        Route::post('/', [NewsController::class, 'add'])->name('add');
+
+    });
 });
 
-Route::get('/phpinfo', function () {
-    phpinfo();
+
+
+
+
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//
+//Route::get('/phpinfo', function () {
+//    phpinfo();
+//});
+//
+//
+//Auth::routes();
+//
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('storage/{filename}', function ($filename){
+    $path= storage_path('app/public/' . $filename);
+
+
+
+    if(!File::exists($path)){
+
+        abort(404);
+    }
+
+    $file=File::get($path);
+    $type=File::mimeType($path);
+    $response=Response::make($file,200);
+    $response->header('Content-Type', $type);
+
+
+    return $response;
 });
 

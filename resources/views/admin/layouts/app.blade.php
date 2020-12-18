@@ -21,13 +21,13 @@
 </head>
 <body>
     <div id="app">
-@include('_partisals.header')
+@include('admin._partisals.header')
 
         <main class="py-4">
             @yield('content')
         </main>
     </div>
 
-@include('_partisals.footer')
+@include('admin._partisals.footer')
 </body>
 </html>

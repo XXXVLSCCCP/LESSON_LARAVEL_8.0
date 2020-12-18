@@ -13,6 +13,7 @@
 
                 <div class="card-body">
 
+
                     @if(@empty($news))
 
                         Новостей нет
@@ -24,9 +25,26 @@
 
                             @if(!$item['is_private'])
 
-                            <ul>
-                                <li><a href="/news/{{$item['id']}}">{{$item['title']}}</a></li>
-                            </ul>
+                            <figure class="figure">
+                                <h4>{{$item['title']}}</h4>
+                                @if(!$item['image'])
+                                <img src="http://placehold.it/100x100" style="float: left; padding: 10px; margin: 0" class="figure-img img-fluid rounded" alt="Фото">
+
+                                @else
+
+                                    <img src="{{$item['image']}}" style="float: left; padding: 10px; margin: 0" class="figure-img img-fluid rounded" alt="Фото">
+
+                                  @endif
+                                    <figcaption style="text-overflow: clip; overflow: hidden; height: 160px" class="figure-caption">{{$item['text']}}
+                                </figcaption>
+
+
+                            </figure>
+                                <a style="display: block" href="/news/{{$item['id']}}">Подробнее.....</a>
+
+                                <hr>
+
+
 
                             @endif
 
@@ -39,22 +57,7 @@
 
 
 
-                        <ul>
 
-                       <li><a href="/news/category/1">Новости относящие к первой категории</a></li>
-                       <li><a href="/news/category/2">Новости относящие ко второй категории</a></li>
-
-                        </ul>
-
-
-                        <ul>
-
-                        <li><a href="/news/category/sport">Новости относящие к спорту</a></li>
-                        <li><a href="/news/category/games">Новости относящие играм</a></li>
-                        <li><a href="/news/category/programming">Новости относящие программирвоанию</a></li>
-                        <li><a href="/news/category/sity">Новости относящие к городу</a></li>
-
-                        </ul>
                 </div>
             </div>
         </div>
